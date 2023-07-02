@@ -1,12 +1,17 @@
 const http = require('http');
 const fs = require('fs');
+const path = require('path'); // Import the 'path' module
 const WebSocket = require('ws');
+
+
 
 let data = {};
 
 const server = http.createServer((req, res) => {
   if (req.url === '/') {
-    fs.readFile('index.html', 'utf8', (err, content) => {
+    // Change the file path to serve the index.html file
+    const filePath = path.join(__dirname, 'index.html');
+    fs.readFile(filePath, 'utf8', (err, content) => {
       if (err) {
         console.error(err);
         res.writeHead(500);
@@ -26,6 +31,22 @@ const server = http.createServer((req, res) => {
       'Access-Control-Allow-Origin': '*'
     });
     res.end(JSON.stringify(data));
+  } else if (req.url === '/script.js') {
+    // Serve the script.js file
+    const filePath = path.join(__dirname, 'script.js');
+    fs.readFile(filePath, 'utf8', (err, content) => {
+      if (err) {
+        console.error(err);
+        res.writeHead(500);
+        res.end('Internal Server Error');
+      } else {
+        res.writeHead(200, {
+          'Content-Type': 'application/javascript',
+          'Cache-Control': 'no-cache'
+        });
+        res.end(content);
+      }
+    });
   } else {
     res.writeHead(404);
     res.end('Not Found');
@@ -44,9 +65,9 @@ wss.on('connection', (ws) => {
       const receivedData = JSON.parse(message);
       data = receivedData;
       console.log('Received data:', receivedData);
+      
     } catch (error) {
       console.error('Invalid data received:', message);
     }
   });
 });
-
