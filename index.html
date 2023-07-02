@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GUI Program</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <h1>GUI Program</h1>
+  <div id="altitude"></div>
+  <div id="adi"></div>
+  <div id="his"></div>
+
+  <script>
+    function fetchData() {
+  fetch('http://localhost:3001/data')
+    .then(response => response.json())
+    .then(data => updateValues(data))
+    .catch(error => console.error(error));
+}
+
+function updateValues(data) {
+  const altitudeElement = document.getElementById('altitude');
+  const adiElement = document.getElementById('adi');
+  const hisElement = document.getElementById("his");
+
+  altitudeElement.textContent = `Altitude: ${data.altitude}`;
+  adiElement.textContent = `ADI: ${data.adi}`;
+  hisElement.textContent = `HIS: ${data.his}`;
+
+
+  // Fetch data again after 2 seconds
+  setTimeout(fetchData, 2000);
+}
+
+// Fetch initial data
+fetchData();
+  </script>
+</body>
+</html>
