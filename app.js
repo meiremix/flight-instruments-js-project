@@ -26,6 +26,7 @@ ws.on('open', () => {
         const data = JSON.stringify({ altitude, his, adi });
         ws.send(data);
         rl.close();
+        ws.close();
       });
     });
   });
