@@ -1,15 +1,13 @@
 const http = require('http');
 const fs = require('fs');
-const path = require('path'); // Import the 'path' module
+const path = require('path');
 const WebSocket = require('ws');
-
-
 
 let data = {};
 
 const server = http.createServer((req, res) => {
   if (req.url === '/') {
-    // Change the file path to serve the index.html file
+    // Serve the index.html file
     const filePath = path.join(__dirname, 'index.html');
     fs.readFile(filePath, 'utf8', (err, content) => {
       if (err) {
@@ -25,6 +23,7 @@ const server = http.createServer((req, res) => {
       }
     });
   } else if (req.url === '/data') {
+    // Serve the data endpoint
     res.writeHead(200, {
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',
@@ -42,6 +41,22 @@ const server = http.createServer((req, res) => {
       } else {
         res.writeHead(200, {
           'Content-Type': 'application/javascript',
+          'Cache-Control': 'no-cache'
+        });
+        res.end(content);
+      }
+    });
+  } else if (req.url === '/style.css') {
+    // Serve the styles.css file
+    const filePath = path.join(__dirname, 'style.css');
+    fs.readFile(filePath, 'utf8', (err, content) => {
+      if (err) {
+        console.error(err);
+        res.writeHead(500);
+        res.end('Internal Server Error');
+      } else {
+        res.writeHead(200, {
+          'Content-Type': 'text/css',
           'Cache-Control': 'no-cache'
         });
         res.end(content);
@@ -65,7 +80,6 @@ wss.on('connection', (ws) => {
       const receivedData = JSON.parse(message);
       data = receivedData;
       console.log('Received data:', receivedData);
-      
     } catch (error) {
       console.error('Invalid data received:', message);
     }
