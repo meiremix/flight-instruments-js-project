@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="script.js"></script>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GUI Program</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>GUI Program</h1>
-  <div id="altitude"></div>
-  <div id="adi"></div>
-  <div id="his"></div>
+  <h1 class="text" id="h1">GUI Program</h1>
+  <div class="text" id="altitude"></div>
+  <div class="text" id="adi"></div>
+  <div class="text" id="his"></div>
 
+  <div class="circle" id="circle"></div>
+  
+  
+  <div class="bar" id="bar">
+    <div class="numbers-container">
+      <div class="number">0</div>
+      <div class="number">1000</div>
+      <div class="number">2000</div>
+      <div class="number">3000</div>
+    </div>
+    <div class="number" id="barArrow"></div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
