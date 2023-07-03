@@ -23,14 +23,19 @@ ws.on('open', () => {
       askValue("adi", -100, 100, (adiValue) => {
         adi = adiValue;
 
-        const data = JSON.stringify({ altitude, his, adi });
-        ws.send(data);
-        rl.close();
-        ws.close();
+        console.log("press any key to send the data!");
+        process.stdin.on('keypress', (key) => {
+        if(key != "") {
+          const data = JSON.stringify({ altitude, his, adi });
+          ws.send(data);
+          rl.close();
+          ws.close();
+        }
+        
       });
     });
   });
-});
+})});
 
 function askValue(name, min, max, callback) {
   rl.question(`Enter the ${name} value (${min}-${max}): `, (value) => {
